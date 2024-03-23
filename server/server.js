@@ -1,7 +1,9 @@
-const express = require('express')
-const cors = require('cors')
+const express = require('express');
+const cors = require('cors');
+const authRouter = require('./src/routes/authRoutes');
+const passport = require('./passport');
 
-require('dotenv').config()
+require('dotenv').config();
 
 const bodyParser = require('body-parser')
 const connectDB = require('./src/config/connectDB');
@@ -16,12 +18,10 @@ app.use(cors({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 connectDB();
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+app.use('/api/auth', authRouter);
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

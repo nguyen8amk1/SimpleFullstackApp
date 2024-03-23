@@ -2,7 +2,8 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './oauthDB.sqlite'
+    storage: './oauthDB.sqlite', 
+    logging: false
 });
 
 const connectDB = async () => {
