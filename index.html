@@ -13,10 +13,60 @@
         <script src="./react/babel.js"></script>
 
         <script type="text/babel">
-            ReactDOM.render(
-                <h1 id="ditmesaigon">
-                    <span>Hello</span>
-                </h1>,
+
+            class TextAreaCounter extends React.Component {
+                constructor() {
+                    super(); 
+                    this.state = {};
+                }
+
+                onTextChange(event) {
+                    this.setState({
+                        text: event.target.value
+                    });
+                };
+
+                componentDidMount() {
+                    console.log("componentDidMount");
+                }
+
+                componentWillUnmount() {
+                    console.log("componentWillUnmount");
+                }
+
+                componentDidUpdate(prevProps, prevState, snapshot) {
+                    console.log("componentDidUpdate     ", prevProps, prevState, snapshot);
+                }
+
+                getSnapshotBeforeUpdate(prevProps, prevState) {
+                    console.log("getSnapshotBeforeUpdate     ", prevProps, prevState);
+                    return "Hello";
+                }
+
+                shouldComponentUpdate(newProps, newState) {
+                    console.log("shouldComponentUpdate     ", newProps, newState);
+                    return true;
+                }
+
+                render() {
+                    const text = 'text' in this.state ? this.state.text : this.props.text;
+                    return (
+                        <div>
+                            <textarea onChange={event=> this.onTextChange(event)} value={text}/>
+                            <h3>{text.length}</h3>
+                        </div>
+                    );
+                }
+            }
+
+            TextAreaCounter.defaultProps = {
+                text: "Ditmesaigon"
+            };
+
+            const test = ReactDOM.render(
+                    <TextAreaCounter text="Bob"/>
+                    //<TextAreaCounter/>
+                ,
               document.getElementById('app')
             );
         </script>
