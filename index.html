@@ -13,47 +13,61 @@
         <script src="./react/babel.js"></script>
 
         <script type="text/babel">
-
-            class TextAreaCounter extends React.Component {
-                constructor() {
-                    super(); 
-                    this.state = {};
-                }
-
-                onTextChange(event) {
-                    this.setState({
-                        text: event.target.value
-                    });
-                };
+            class LifecycleLoggerComponent extends React.Component {
+                static getName() {}
 
                 componentDidMount() {
-                    console.log("componentDidMount");
+                    console.log(this.constructor.getName() + '::componentDidMount');
                 }
 
                 componentWillUnmount() {
-                    console.log("componentWillUnmount");
+                    console.log(this.constructor.getName() + '::componentWillUnmount');
                 }
 
                 componentDidUpdate(prevProps, prevState, snapshot) {
-                    console.log("componentDidUpdate     ", prevProps, prevState, snapshot);
+                    console.log(this.constructor.getName() + '::componentDidUpdate');
+                }
+            }
+
+            class Counter extends LifecycleLoggerComponent {
+                static getName() {
+                    return 'Counter';
                 }
 
-                getSnapshotBeforeUpdate(prevProps, prevState) {
-                    console.log("getSnapshotBeforeUpdate     ", prevProps, prevState);
-                    return "Hello";
+                render() {
+                    return <h3>{this.props.count}</h3>;
+                }
+            }
+
+            Counter.defaultProps = {
+                count: 0,
+            };
+
+            class TextAreaCounter extends LifecycleLoggerComponent {
+                static getName() {
+                    return "TextAreaCounter";
                 }
 
-                shouldComponentUpdate(newProps, newState) {
-                    console.log("shouldComponentUpdate     ", newProps, newState);
-                    return true;
+                constructor() {
+                    super();
+                    this.state = {};
+                    this.onTextChange = this.onTextChange.bind(this);
+                }
+
+                onTextChange(event) {
+                    this.setState({text: event.target.value});
                 }
 
                 render() {
                     const text = 'text' in this.state ? this.state.text : this.props.text;
+                    const counter = text.length > 0 ? <Counter count={text.length} /> : null 
                     return (
                         <div>
-                            <textarea onChange={event=> this.onTextChange(event)} value={text}/>
-                            <h3>{text.length}</h3>
+                            <textarea
+                                value={text}
+                                onChange={this.onTextChange}
+                            />
+                            {counter}
                         </div>
                     );
                 }
@@ -69,6 +83,7 @@
                 ,
               document.getElementById('app')
             );
+
         </script>
     </body>
 </html>
