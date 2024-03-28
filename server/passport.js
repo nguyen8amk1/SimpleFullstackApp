@@ -9,15 +9,19 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
         // TODO: Your database logic here
+        //console.log("strategy: ", accessToken, refreshToken, profile)
+        console.log("strategy: ", accessToken, refreshToken);
         return done(null, profile);
     }
     )
 );
 
 passport.serializeUser((user, done) => {
-
+    console.log("serialize: ");
+    done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
-
+passport.deserializeUser((googleId, done) => {
+    console.log("deserialize: ");
+    done(null, googleId);
 });
