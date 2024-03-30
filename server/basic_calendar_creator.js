@@ -51,6 +51,7 @@ async function saveCredentials(client) {
  * Load or request or authorization to call APIs.
  *
  */
+
 async function authorize() {
   let client = await loadSavedCredentialsIfExist();
   if (client) {
@@ -123,7 +124,7 @@ class CalendarCreator {
         const events = res.data.items;
         if (!events || events.length === 0) {
             result = 'No upcoming events found.';
-            //return;
+            // return;
         } else {
             //console.log('Upcoming 10 events:');
             result = [];
@@ -137,10 +138,12 @@ class CalendarCreator {
     }
 
     createEvent() {
+        // TODO: 
 
     }
 
     createCalendar() {
+        // TODO: 
 
     }
 };
@@ -148,7 +151,9 @@ class CalendarCreator {
 
 const main = async () => {
     try { 
+        // NOTE: this authorize() function is gonna be move to it's own block with output is the userCredentials 
         const userCredentials = await authorize();
+
         const calendarCreator = new CalendarCreator(userCredentials);
         calendarCreator.setCalendarId('7b67866fd7f5842220add4245ec3b230fc0790c2ceb0b56de40a1d8fe3f3f7ab@group.calendar.google.com');
         const result = await calendarCreator.listEvents(10);
