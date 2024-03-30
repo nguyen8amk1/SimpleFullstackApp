@@ -57,10 +57,12 @@ async function authorize() {
   if (client) {
     return client;
   }
+
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
   });
+
   if (client.credentials) {
     await saveCredentials(client);
   }
@@ -156,6 +158,7 @@ const main = async () => {
 
         const calendarCreator = new CalendarCreator(userCredentials);
         calendarCreator.setCalendarId('7b67866fd7f5842220add4245ec3b230fc0790c2ceb0b56de40a1d8fe3f3f7ab@group.calendar.google.com');
+
         const result = await calendarCreator.listEvents(10);
         console.log(result);
 
