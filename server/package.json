@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "googleapis": "^105.0.0",
     "nodemon": "^3.1.0",
     "passport": "^0.5.3",
     "passport-google-oauth2": "^0.2.0"

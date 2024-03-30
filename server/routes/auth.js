@@ -22,6 +22,13 @@ router.get('/login/success', (req, res) => {
                 //cookies: req.cookies
             }
         );
+    } else {
+        res.status(401).json(
+            {
+                success: false, 
+                message: "failure"
+            }
+        );
     }
 });
 
