@@ -4,8 +4,6 @@ const moment = require('moment-timezone');
 
 const { datetime, RRule, RRuleSet, rrulestr } = require('rrule');
 
-// TODO: try to make this works 
-// NOTE: this calendar creator should be the plugin part 
 class CalendarCreator {
     // byweekday: [RRule.MO, RRule.FR],
     static WEEKDAYS_MAPPING = [

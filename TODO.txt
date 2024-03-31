@@ -1,6 +1,12 @@
 # TODO: 
-    Create a new calendar then add the original tkb to it [] @Current
-    Change event colors [] 
+    Create a new calendar then add the original tkb to it [] (10m) @Current
+    Change event colors []  (10m)
+    Read calendar from HTML [] (1h)
+
+    Attach to React client code [] (4h) 
+        -> just the route /api/generateCalendar then do the work, no UI  
+
+    Temp React front end [] (4h) 
 
 # DONE: 
     Create an event [x]
