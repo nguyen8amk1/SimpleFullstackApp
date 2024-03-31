@@ -5,11 +5,8 @@ const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 const CalendarCreator = require('./CalendarCreator');
 
-const { datetime, RRule, RRuleSet, rrulestr } = require('rrule');
-
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.readonly'];
-
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first time.
@@ -189,50 +186,17 @@ let schedule =
   }
 ]; 
 
-const generateDateTimeString = (date, time) => {
-    let result = "";
-    const [day, month, year] = date.split('/');
-    const fullYear= '20'+ year;
-    result += fullYear + '-' + month + '-' + day;
-    result += 'T'; 
-    result += time; 
-    result += '+07:00'; 
-    return result;
-}
 
 const main = async () => {
-    // NOTE: testing date time stuff 
-    // const startDate =  '19/02/24';
-    // const startTime = '13:00:00'; 
-    // const endDate = '08/06/24'; 
-    // const endTime = '15:15:00'; 
-    //
-    // console.log(generateDateTimeString(startDate, startTime));
-    // console.log(generateDateTimeString(endDate, endTime));
-    
     try { 
         // NOTE: this authorize() function is gonna be move to it's own block with output is the userCredentials 
         const userCredentials = await authorize();
 
         const calendarCreator = new CalendarCreator(userCredentials);
-        calendarCreator.setCalendarId('44c7bc64db99ef65c500826068f96c3cc0957e3989bd054ec4e06d248edc5897@group.calendar.google.com');
+        calendarCreator.setCalendarId('7b67866fd7f5842220add4245ec3b230fc0790c2ceb0b56de40a1d8fe3f3f7ab@group.calendar.google.com');
 
-        // const result = await calendarCreator.listEvents(10);
-        // console.log(result);
-
-        console.log(await calendarCreator.createEvent(
-            {
-                name: 'Tư duy tính toán - CS117.O21 - VN',
-                startDate: '1/04/24',
-                endDate: '08/06/24',
-                startTime: '07:00:00',
-                endTime: '23:15:00',
-                gap: 2,
-                description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
-                color: 4,
-                weekday: 4 
-            }
-        ));
+        const result = await calendarCreator.listEvents(10);
+        console.log(result);
 
     } catch (err) {
         console.error(err);

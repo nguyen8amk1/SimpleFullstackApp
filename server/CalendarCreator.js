@@ -108,15 +108,18 @@ class CalendarCreator {
         const interval = event.gap;
 
         // TODO: 
+        // Count works perfectly fine, but until still not working 
+        
+        const count = 10;
         const recurrence = new RRule({
             freq: RRule.WEEKLY,
             interval: interval,
             tzid: this.timezone,
             byweekday: courseWeekdays,
-            dtstart: datetime(2024, 3, 4, 7, 30, 0),
-            until: datetime(2024, 6, 31),
+            //dtstart: datetime(2024, 3, 4, 7, 30, 0),
+            //until: datetime(2024, 6, 31),
+            count: count, 
         }).toString();
-
 
         const result = {
             'summary': event.name,
@@ -132,7 +135,7 @@ class CalendarCreator {
                'timeZone': this.timezone,
             },
             
-            'recurrence': recurrence, 
+            'recurrence': [recurrence], 
         };
 
         return result;    
