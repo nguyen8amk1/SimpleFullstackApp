@@ -22,6 +22,9 @@ class CalendarCreator {
         this.calendarId = 'primary';
         this.calendar = google.calendar({version: 'v3', auth: this.userCredentials});
         this.timezone = 'Asia/Ho_Chi_Minh';
+        this.eventColors = null; 
+        this.calendarColors = null;
+
     }
 
     setTimeZone(timezone) {
@@ -138,6 +141,29 @@ class CalendarCreator {
         return result;    
     }
 
+    _stringToIndexInRange(inputString, rangeStart, rangeEnd) {
+        /**
+     * Converts a string to an index within the specified range.
+     * 
+     * @param {string} inputString - The input string.
+     * @param {number} rangeStart - The starting index of the range (inclusive).
+     * @param {number} rangeEnd - The ending index of the range (exclusive).
+     * @returns {number} An index within the range [rangeStart, rangeEnd).
+     */
+        let hash = 0;
+        for (let i = 0; i < inputString.length; i++) {
+            hash += inputString.charCodeAt(i);
+        }
+        return rangeStart + (hash % (rangeEnd - rangeStart));
+    }
+
+    async enableRandomColors() {
+        const colors = await this.calendar.colors.get(); 
+        this.eventColors = colors.data.event; 
+        this.calendarColors = colors.data.calendar;
+        console.log(this.eventColors);
+    }
+
     async newCalendar(calendarName) {
         return new Promise((resolve, reject) => {
             const calendar = {
@@ -161,11 +187,14 @@ class CalendarCreator {
     async createEvent(event) {
         // TODO: make this works 
         const validEvent = this._eventParse(event);
-        console.log(validEvent);
+        //console.log(validEvent);
+
 
         await this.calendar.events.insert({
             calendarId: this.calendarId,
             resource: validEvent,
+            //colorId: this._stringToIndexInRange(validEvent.summary, 1, this.eventColors.length), 
+            colorId: '1'
         }, (err, event) => {
             if (err) {
                 console.log('There was an error contacting the Calendar service: ' + err);

@@ -1,10 +1,12 @@
 # TODO: 
-    Change event colors []  (10m) @Current
-
-    Attach to React client code [] (4h) 
+    Attach to React client code [] (4h) @Current 
         -> just the route /api/generateCalendar then do the work, no UI  
 
+        Loading then show the logs on the client side []
+
     Temp React front end [] (4h) 
+
+    Change event colors []  (1h) 
 
 # DONE: 
     Read calendar from HTML [X] (1h)

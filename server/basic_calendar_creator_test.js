@@ -212,6 +212,7 @@ const main = async () => {
         const schedule1 = calendarParser.parse();
 
         const calendarCreator = new CalendarCreator(userCredentials);
+        await calendarCreator.enableRandomColors();
         const calendarId = await calendarCreator.newCalendar("vailonchimen");
         calendarCreator.setCalendarId(calendarId);
         await calendarCreator.generateResultCalendar(schedule1);
