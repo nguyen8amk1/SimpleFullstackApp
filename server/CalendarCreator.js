@@ -114,11 +114,11 @@ class CalendarCreator {
         const recurrence = new RRule({
             freq: RRule.WEEKLY,
             interval: interval,
-            tzid: this.timezone,
+            //tzid: this.timezone,
             byweekday: courseWeekdays,
             //dtstart: datetime(2024, 3, 4, 7, 30, 0),
-            //until: datetime(2024, 6, 31),
-            count: count, 
+            until: datetime(2024, 6, 31),
+            //count: count, 
         }).toString();
 
         const result = {

@@ -230,7 +230,7 @@ const main = async () => {
                 gap: 2,
                 description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
                 color: 4,
-                weekday: 4 
+                weekday: 7 
             }
         ));
 
