@@ -107,9 +107,6 @@ class CalendarCreator {
         const courseWeekdays = [CalendarCreator.WEEKDAYS_MAPPING[event.weekday]];
         const interval = event.gap;
 
-        // TODO: 
-        // Count works perfectly fine, but until still not working 
-        
         const count = 10;
         const recurrence = new RRule({
             freq: RRule.WEEKLY,

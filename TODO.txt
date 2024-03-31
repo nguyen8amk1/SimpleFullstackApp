@@ -1,7 +1,8 @@
 # TODO: 
 
     Create a tkb calendar with calendar ID (basically porting the appscript) [] 
-        Recurrent event @Current
+        Recurrent event [X]
+        Recreate the original calendar [] @Current 
 
     Create a new calendar [] @Next
 
