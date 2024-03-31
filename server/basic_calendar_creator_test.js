@@ -3,6 +3,7 @@ const path = require('path');
 const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
+const CalendarCreator = require('./CalendarCreator');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
@@ -96,59 +97,94 @@ async function listEvents(auth) {
 }
 
 //authorize().then(listEvents).catch(console.error);
-
 // Input: 
     // user credentials
     // calendar information
 // Output: 
 //  success/failed message
 
-class CalendarCreator {
-    constructor(userCredentials) {
-        this.userCredentials = userCredentials;
-        this.calendarId = 'primary';
-    }
-    setCalendarId(id) {
-        this.calendarId = id;
-    }
 
-    async listEvents(count) {
-        let result = "ditme, bi cai lon gi roi"; 
-        const calendar = google.calendar({version: 'v3', auth: this.userCredentials});
-        const res = await calendar.events.list({
-            calendarId: this.calendarId,
-            timeMin: new Date().toISOString(),
-            maxResults: count,
-            singleEvents: true,
-            orderBy: 'startTime',
-        });
-
-        const events = res.data.items;
-        if (!events || events.length === 0) {
-            result = 'No upcoming events found.';
-            // return;
-        } else {
-            //console.log('Upcoming 10 events:');
-            result = [];
-            events.map((event, i) => {
-                const start = event.start.dateTime || event.start.date;
-                //console.log(`${start} - ${event.summary}`);
-                result.push(`${start} - ${event.summary}`);
-            });
-        }
-        return result;
-    }
-
-    createEvent() {
-        // TODO: 
-
-    }
-
-    createCalendar() {
-        // TODO: 
-
-    }
-};
+// NOTE: this should be generated from the HTML parser 
+let schedule = 
+[
+  {
+    name: 'Đồ họa máy tính - CS105.O21.KHCL - VN',
+    startDate: '19/02/24',
+    endDate: '08/06/24',
+    startTime: '07:30:00',
+    endTime: '09:45:00',
+    gap: 1,
+    description: 'P B1.10 - CS105.O21.KHCL - VN - Sĩ số: 49}',
+    color: 11,
+    weekday: 4
+  },
+  {
+    name: 'Bảo mật web và ứng dụng - NT213.O22.ATCL.1 - VN(HT1) - (Cách 2 tuần)',
+    startDate: '04/03/24',
+    endDate: '01/06/24',
+    startTime: '07:30:00',
+    endTime: '11:30:00',
+    gap: 2,
+    description: 'P B4.06 (PM) - NT213.O22.ATCL.1 - VN(HT1) - (Cách 2 tuần) - Sĩ số: 23}',
+    color: 6,
+    weekday: 5
+  },
+  {
+    name: 'Các phương pháp lập trình - SE334.O21.PMCL - VN - (Cách 2 tuần)',
+    startDate: '19/02/24',
+    endDate: '15/06/24',
+    startTime: '07:30:00',
+    endTime: '10:45:00',
+    gap: 2,
+    description: 'P B4.10 - SE334.O21.PMCL - VN - (Cách 2 tuần) - Sĩ số: 50}',
+    color: 4,
+    weekday: 7
+  },
+  {
+    name: 'Cơ chế hoạt động của mã độc - NT230.O21.ATCL - VN',
+    startDate: '19/02/24',
+    endDate: '08/06/24',
+    startTime: '08:15:00',
+    endTime: '09:45:00',
+    gap: 1,
+    description: 'P C212 (CLC) - NT230.O21.ATCL - VN - Sĩ số: 26}',
+    color: 11,
+    weekday: 3
+  },
+  {
+    name: 'Bảo mật web và ứng dụng - NT213.O22.ATCL - VN',
+    startDate: '19/02/24',
+    endDate: '08/06/24',
+    startTime: '08:15:00',
+    endTime: '09:45:00',
+    gap: 1,
+    description: 'P C301 (CLC) - NT213.O22.ATCL - VN - Sĩ số: 45}',
+    color: 6,
+    weekday: 6
+  },
+  {
+    name: 'Cơ chế hoạt động của mã độc - NT230.O21.ATCL.1 - VN(HT1) - (Cách 2 tuần)',
+    startDate: '04/03/24',
+    endDate: '01/06/24',
+    startTime: '13:00:00',
+    endTime: '17:00:00',
+    gap: 2,
+    description: 'P B2.18 (PM) - NT230.O21.ATCL.1 - VN(HT1) - (Cách 2 tuần) - Sĩ số: 26}',
+    color: 11,
+    weekday: 3
+  },
+  {
+    name: 'Tư duy tính toán - CS117.O21 - VN',
+    startDate: '19/02/24',
+    endDate: '08/06/24',
+    startTime: '13:00:00',
+    endTime: '15:15:00',
+    gap: 1,
+    description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
+    color: 6,
+    weekday: 6
+  }
+]; 
 
 
 const main = async () => {
