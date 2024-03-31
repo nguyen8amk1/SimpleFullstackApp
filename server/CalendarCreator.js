@@ -100,6 +100,7 @@ class CalendarCreator {
     _eventParse(event) {
         const startCourseDateTime = this._generateDateTimeString(event.startDate, event.startTime);
         const endCourseDateTime = this._generateDateTimeString(event.endDate, event.endTime);
+        const [endday, endmonth, endyear] = event.endDate.split('/');
 
         const startSessionDateTime = this._generateDateTimeString(event.startDate, event.startTime);
         const endSessionDateTime = this._generateDateTimeString(event.startDate, event.endTime);
@@ -111,10 +112,11 @@ class CalendarCreator {
         const recurrence = new RRule({
             freq: RRule.WEEKLY,
             interval: interval,
-            //tzid: this.timezone,
             byweekday: courseWeekdays,
+            until: datetime('20' + endyear, endmonth, endday),
+
             //dtstart: datetime(2024, 3, 4, 7, 30, 0),
-            until: datetime(2024, 6, 31),
+            //tzid: this.timezone,
             //count: count, 
         }).toString();
 
@@ -151,33 +153,14 @@ class CalendarCreator {
                     console.log('There was an error contacting the Calendar service: ' + err);
                     return;
                 }
-                console.log('Event created: %s', event.htmlLink);
+                console.log('Event created: %s', event.data.summary);
         });
-
-        // const eventSeries = this.calendar.createEventSeries(
-        //     validEvent.name,
-        //     validEvent.currentstart, 
-        //     validEvent.currentend,
-        //     CalendarApp.newRecurrence().addWeeklyRule().interval(validEvent.gap)
-        //         .onlyOnWeekdays(validEvent.weekdays)
-        //         .until(validEvent.enddate))
-        // .setDescription(validEvent.description)
-        // .setColor(validEvent.color)
-        // ;
-
-        console.log("Added: " + validEvent.name);
     }
 
-    async generateResultCalendar() {
-        // TODO: this code bellow is appscript, make it work 
-        const calendar = CalendarApp.getCalendarById(calendarID);
-        const correctedSchedule = modifiedSchedule(schedule);
-
-        Logger.log(COLORS);
-
-        for(let i = 0; i < correctedSchedule.length; i++) {
-            const event = correctedSchedule[i];
-            createEvent(event, calendar);
+    async generateResultCalendar(schedule) {
+        for(let i = 0; i < schedule.length; i++) {
+            const event = schedule[i];
+            this.createEvent(event);
         }
     }
 

@@ -1,10 +1,9 @@
 # TODO: 
-
-    Create a tkb calendar with calendar ID (basically porting the appscript) [] 
-        Recurrent event [X]
-        Recreate the original calendar [] @Current 
-
-    Create a new calendar [] @Next
+    Create a new calendar then add the original tkb to it [] @Current
+    Change event colors [] 
 
 # DONE: 
-Create an event [x]
+    Create an event [x]
+    Create a tkb calendar with calendar ID (basically porting the appscript) [X] 
+        Recurrent event [X]
+        Recreate the original calendar [X] 

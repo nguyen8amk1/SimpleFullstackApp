@@ -215,24 +215,28 @@ const main = async () => {
         const userCredentials = await authorize();
 
         const calendarCreator = new CalendarCreator(userCredentials);
-        calendarCreator.setCalendarId('44c7bc64db99ef65c500826068f96c3cc0957e3989bd054ec4e06d248edc5897@group.calendar.google.com');
+        const calendarId = '81b25b803ac4e4a705c768e839c13b78c2ad01f0866e726ba50520af42146a56@group.calendar.google.com';
+        calendarCreator.setCalendarId(calendarId);
+
 
         // const result = await calendarCreator.listEvents(10);
         // console.log(result);
 
-        console.log(await calendarCreator.createEvent(
-            {
-                name: 'Tư duy tính toán - CS117.O21 - VN',
-                startDate: '1/04/24',
-                endDate: '08/06/24',
-                startTime: '07:00:00',
-                endTime: '23:15:00',
-                gap: 2,
-                description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
-                color: 4,
-                weekday: 7 
-            }
-        ));
+        // console.log(await calendarCreator.createEvent(
+        //     {
+        //         name: 'Tư duy tính toán - CS117.O21 - VN',
+        //         startDate: '1/04/24',
+        //         endDate: '08/06/24',
+        //         startTime: '07:00:00',
+        //         endTime: '23:15:00',
+        //         gap: 2,
+        //         description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
+        //         color: 4,
+        //         weekday: 7 
+        //     }
+        // ));
+        
+        await calendarCreator.generateResultCalendar(schedule);
 
     } catch (err) {
         console.error(err);
