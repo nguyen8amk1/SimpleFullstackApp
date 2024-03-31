@@ -187,8 +187,27 @@ let schedule =
   }
 ]; 
 
+const generateDateTimeString = (date, time) => {
+    let result = "";
+    const [day, month, year] = date.split('/');
+    const fullYear= '20'+ year;
+    result += fullYear + '-' + month + '-' + day;
+    result += 'T'; 
+    result += time; 
+    result += '+07:00'; 
+    return result;
+}
 
 const main = async () => {
+    // NOTE: testing date time stuff 
+    // const startDate =  '19/02/24';
+    // const startTime = '13:00:00'; 
+    // const endDate = '08/06/24'; 
+    // const endTime = '15:15:00'; 
+    //
+    // console.log(generateDateTimeString(startDate, startTime));
+    // console.log(generateDateTimeString(endDate, endTime));
+    
     try { 
         // NOTE: this authorize() function is gonna be move to it's own block with output is the userCredentials 
         const userCredentials = await authorize();

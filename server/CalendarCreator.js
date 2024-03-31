@@ -3,29 +3,6 @@ const moment = require('moment-timezone');
 
 // TODO: try to make this works 
 class CalendarCreator {
-    static COLORS = {
-        BLUE : "#000000", 	
-        GRAY: "#000000", 
-        GREEN: "#000000", 
-        // ORANGE: CalendarApp.EventColor.ORANGE, 
-        // RED	: CalendarApp.EventColor.RED, 
-        // YELLOW: CalendarApp.EventColor.YELLOW, 
-        // CYAN: CalendarApp.EventColor.CYAN, 
-        // MAUVE: CalendarApp.EventColor.MAUVE,
-        // PALE_BLUE: CalendarApp.EventColor.PALE_BLUE,
-        // PALE_GREEN: CalendarApp.EventColor.PALE_GREEN,
-    }; 
-
-    static WEEKDAYS_MAPPING= [0, 0, 
-        // CalendarApp.Weekday.MONDAY,
-        // CalendarApp.Weekday.TUESDAY,
-        // CalendarApp.Weekday.WEDNESDAY,
-        // CalendarApp.Weekday.THURSDAY,
-        // CalendarApp.Weekday.FRIDAY,
-        // CalendarApp.Weekday.SATURDAY,
-        // CalendarApp.Weekday.SUNDAY,
-    ];
-
     constructor(userCredentials) {
         this.userCredentials = userCredentials;
         this.calendarId = 'primary';
@@ -89,38 +66,41 @@ class CalendarCreator {
         return nextStartDate; 
     }
 
-    _parseDateTime(date, time) {
-        // Split the start date into day, month, and year
-        const [day, month, year] = date.split('/').map(Number);
-
-        // Parse the start time into hours, minutes, and seconds
-        const [hours, minutes, seconds] = time.split(':').map(Number);
-
-        // Create a moment object with the parsed values and set the timezone to Vietnam
-        const d = moment.tz([year + 2000, month - 1, day, hours, minutes, seconds], 'Asia/Ho_Chi_Minh').toISOString();
-
-        return d;
+    _generateDateTimeString(date, time) {
+        let result = "";
+        const [day, month, year] = date.split('/');
+        // NOTE: this full year is only temporary -> change this to a better implementation
+        const fullYear= '20'+ year;
+        result += fullYear + '-' + month + '-' + day;
+        result += 'T'; 
+        result += time; 
+        result += '+07:00'; 
+        return result;
     }
 
 
     _eventParse(event) {
-        // TODO: generate this date format from given information
-        const startDateTime = '2024-04-01T07:00:00+07:00';
-        const endDateTime = '2024-04-01T13:00:00+07:00';
-        const recurrence = [ 'RRULE:FREQ=DAILY;COUNT=2' ]; // TODO: generate this information from gap info
+        const startCourseDateTime = this._generateDateTimeString(event.startDate, event.startTime);
+        const endCourseDateTime = this._generateDateTimeString(event.endDate, event.endTime);
+
+        const startSessionDateTime = this._generateDateTimeString(event.startDate, event.startTime);
+        const endSessionDateTime = this._generateDateTimeString(event.startDate, event.endTime);
+
+        // TODO: generate this information from gap info
+        const recurrence = [ 'RRULE:FREQ=DAILY;COUNT=2' ]; 
 
         const result = {
             'summary': event.name,
             'description': event.description,
 
             'start': {
-               'dateTime': startDateTime,
+               'dateTime': startSessionDateTime,
                'timeZone': this.timezone,
             },
 
             'end': {
-               'dateTime': endDateTime,
-                'timeZone': this.timezone,
+               'dateTime': endSessionDateTime,
+               'timeZone': this.timezone,
             } ,
             'recurrence': recurrence, 
         };
@@ -158,7 +138,7 @@ class CalendarCreator {
         console.log("Added: " + validEvent.name);
     }
 
-    createCalendar() {
+    async generateResultCalendar() {
         // TODO: this code bellow is appscript, make it work 
         const calendar = CalendarApp.getCalendarById(calendarID);
         const correctedSchedule = modifiedSchedule(schedule);
