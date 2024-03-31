@@ -138,6 +138,26 @@ class CalendarCreator {
         return result;    
     }
 
+    async newCalendar(calendarName) {
+        return new Promise((resolve, reject) => {
+            const calendar = {
+                'summary': calendarName,
+                'timeZone': 'Asia/Ho_Chi_Minh'
+            }
+
+            //console.log(this.calendar.calendars);
+            this.calendar.calendars.insert({
+                requestBody: calendar
+            }, (err, res) => {
+                if (err)  { 
+                    console.error('The API returned an error:', err); return reject(err)
+                };
+                console.log('New calendar ID:', res.data.id);
+                resolve(res.data.id);
+            });
+        });
+    }
+
     async createEvent(event) {
         // TODO: make this works 
         const validEvent = this._eventParse(event);
@@ -147,11 +167,11 @@ class CalendarCreator {
             calendarId: this.calendarId,
             resource: validEvent,
         }, (err, event) => {
-                if (err) {
-                    console.log('There was an error contacting the Calendar service: ' + err);
-                    return;
-                }
-                console.log('Event created: %s', event.data.summary);
+            if (err) {
+                console.log('There was an error contacting the Calendar service: ' + err);
+                return;
+            }
+            console.log('Event created: %s', event.data.summary);
         });
     }
 

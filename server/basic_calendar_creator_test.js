@@ -205,14 +205,14 @@ const main = async () => {
     try { 
         // NOTE: this authorize() function is gonna be move to it's own block with output is the userCredentials 
         const userCredentials = await authorize();
+        // TODO: create new Calendar
 
         const calendarParser = new HTMLCalendarParser();
         calendarParser.setData("./tkb.html");
         const schedule1 = calendarParser.parse();
 
         const calendarCreator = new CalendarCreator(userCredentials);
-
-        const calendarId = 'bc543b3c6152d015804baf337b509fe710bd73683588f3d7ef34597b77dd1d20@group.calendar.google.com';
+        const calendarId = await calendarCreator.newCalendar("vailonchimen");
         calendarCreator.setCalendarId(calendarId);
         await calendarCreator.generateResultCalendar(schedule1);
 

@@ -1,6 +1,5 @@
 # TODO: 
-    Create a new calendar then add the original tkb to it [] (10m) @Current
-    Change event colors []  (10m)
+    Change event colors []  (10m) @Current
 
     Attach to React client code [] (4h) 
         -> just the route /api/generateCalendar then do the work, no UI  
@@ -9,6 +8,7 @@
 
 # DONE: 
     Read calendar from HTML [X] (1h)
+    Create a new calendar then add the original tkb to it [X] (10m) 
     Create an event [x]
     Create a tkb calendar with calendar ID (basically porting the appscript) [X] 
         Recurrent event [X]
