@@ -204,6 +204,7 @@ class InHouseFormatCalendarParser {
     }
 
     setData(data) {
+        // TODO: data type checking
         this.data = data; 
     }
 
@@ -214,4 +215,4 @@ class InHouseFormatCalendarParser {
 
 }
 
-module.exports = { HTMLCalendarParser, InHouseFormatCalendarParser}; 
+module.exports = { HTMLCalendarParser, InHouseFormatCalendarParser }; 

@@ -4,6 +4,7 @@ const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 const CalendarCreator = require('./CalendarCreator');
+const {HTMLCalendarParser} = require('./CalendarParsers');
 
 const { datetime, RRule, RRuleSet, rrulestr } = require('rrule');
 
@@ -201,42 +202,20 @@ const generateDateTimeString = (date, time) => {
 }
 
 const main = async () => {
-    // NOTE: testing date time stuff 
-    // const startDate =  '19/02/24';
-    // const startTime = '13:00:00'; 
-    // const endDate = '08/06/24'; 
-    // const endTime = '15:15:00'; 
-    //
-    // console.log(generateDateTimeString(startDate, startTime));
-    // console.log(generateDateTimeString(endDate, endTime));
-    
     try { 
         // NOTE: this authorize() function is gonna be move to it's own block with output is the userCredentials 
         const userCredentials = await authorize();
 
+        const calendarParser = new HTMLCalendarParser();
+        calendarParser.setData("./tkb.html");
+        const schedule1 = calendarParser.parse();
+
         const calendarCreator = new CalendarCreator(userCredentials);
-        const calendarId = '81b25b803ac4e4a705c768e839c13b78c2ad01f0866e726ba50520af42146a56@group.calendar.google.com';
+
+        const calendarId = 'bc543b3c6152d015804baf337b509fe710bd73683588f3d7ef34597b77dd1d20@group.calendar.google.com';
         calendarCreator.setCalendarId(calendarId);
+        await calendarCreator.generateResultCalendar(schedule1);
 
-
-        // const result = await calendarCreator.listEvents(10);
-        // console.log(result);
-
-        // console.log(await calendarCreator.createEvent(
-        //     {
-        //         name: 'Tư duy tính toán - CS117.O21 - VN',
-        //         startDate: '1/04/24',
-        //         endDate: '08/06/24',
-        //         startTime: '07:00:00',
-        //         endTime: '23:15:00',
-        //         gap: 2,
-        //         description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
-        //         color: 4,
-        //         weekday: 7 
-        //     }
-        // ));
-        
-        await calendarCreator.generateResultCalendar(schedule);
 
     } catch (err) {
         console.error(err);
