@@ -1,5 +1,7 @@
 const {google} = require('googleapis');
+const moment = require('moment-timezone');
 
+// TODO: try to make this works 
 class CalendarCreator {
     static COLORS = {
         BLUE : "#000000", 	
@@ -27,7 +29,12 @@ class CalendarCreator {
     constructor(userCredentials) {
         this.userCredentials = userCredentials;
         this.calendarId = 'primary';
+        this.calendar = google.calendar({version: 'v3', auth: this.userCredentials});
+        this.timezone = 'Asia/Ho_Chi_Minh';
+    }
 
+    setTimeZone(timezone) {
+        this.timezone = timezone;
     }
 
     setCalendarId(id) {
@@ -82,46 +89,73 @@ class CalendarCreator {
         return nextStartDate; 
     }
 
-    // TODO: clean this function, overlapping variables and very confusing 
-    createEvent(event, calendar) {
-        const validEvent = event;
+    _parseDateTime(date, time) {
+        // Split the start date into day, month, and year
+        const [day, month, year] = date.split('/').map(Number);
 
-        const name = validEvent.name;
-        const gap = validEvent.gap;
+        // Parse the start time into hours, minutes, and seconds
+        const [hours, minutes, seconds] = time.split(':').map(Number);
 
-        const startime = validEvent.startTime;
-        const endtime = validEvent.endTime;
+        // Create a moment object with the parsed values and set the timezone to Vietnam
+        const d = moment.tz([year + 2000, month - 1, day, hours, minutes, seconds], 'Asia/Ho_Chi_Minh').toISOString();
 
-        const startdatestring = generateDateString(validEvent.startDate, startime);
-        const enddatestring = generateDateString(validEvent.endDate, startime);
+        return d;
+    }
 
-        let startdate = new Date(startdatestring);
-        let enddate = new Date(enddatestring); 
 
-        const startstring = generateDateString(validEvent.startDate, startime);
+    _eventParse(event) {
+        // TODO: generate this date format from given information
+        const startDateTime = '2024-04-01T07:00:00+07:00';
+        const endDateTime = '2024-04-01T13:00:00+07:00';
+        const recurrence = [ 'RRULE:FREQ=DAILY;COUNT=2' ]; // TODO: generate this information from gap info
 
-        const endstring = generateDateString(validEvent.startDate, endtime);
+        const result = {
+            'summary': event.name,
+            'description': event.description,
 
-        let currentstart = new Date(startstring);
-        let currentend = new Date(endstring); 
+            'start': {
+               'dateTime': startDateTime,
+               'timeZone': this.timezone,
+            },
 
-        if(endtime === "00:00:00") {
-            //Logger.log("12 gio rui :v");
-            currentend.setDate(currentend.getDate() + 1);
-        }
-        const weekdays = [WEEKDAYS_MAPPING[validEvent.weekday]];
+            'end': {
+               'dateTime': endDateTime,
+                'timeZone': this.timezone,
+            } ,
+            'recurrence': recurrence, 
+        };
 
-        const eventSeries = calendar.createEventSeries(name,
-            currentstart, 
-            currentend,
-            CalendarApp.newRecurrence().addWeeklyRule().interval(gap)
-                .onlyOnWeekdays(weekdays)
-                .until(enddate))
-        .setDescription(validEvent.description)
-        .setColor(validEvent.color)
-        ;
+        return result;    
+    }
 
-        Logger.log("Added: " + name);
+    async createEvent(event) {
+        // TODO: make this works 
+        const validEvent = this._eventParse(event);
+        console.log(validEvent);
+
+        await this.calendar.events.insert({
+            calendarId: this.calendarId,
+            resource: validEvent,
+        }, function(err, event) {
+                if (err) {
+                    console.log('There was an error contacting the Calendar service: ' + err);
+                    return;
+                }
+                console.log('Event created: %s', event.htmlLink);
+        });
+
+        // const eventSeries = this.calendar.createEventSeries(
+        //     validEvent.name,
+        //     validEvent.currentstart, 
+        //     validEvent.currentend,
+        //     CalendarApp.newRecurrence().addWeeklyRule().interval(validEvent.gap)
+        //         .onlyOnWeekdays(validEvent.weekdays)
+        //         .until(validEvent.enddate))
+        // .setDescription(validEvent.description)
+        // .setColor(validEvent.color)
+        // ;
+
+        console.log("Added: " + validEvent.name);
     }
 
     createCalendar() {
@@ -139,8 +173,8 @@ class CalendarCreator {
 
     async listEvents(count) {
         let result = "ditme, bi cai lon gi roi"; 
-        const calendar = google.calendar({version: 'v3', auth: this.userCredentials});
-        const res = await calendar.events.list({
+
+        const res = await this.calendar.events.list({
             calendarId: this.calendarId,
             timeMin: new Date().toISOString(),
             maxResults: count,

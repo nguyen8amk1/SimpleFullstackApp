@@ -6,7 +6,8 @@ const {google} = require('googleapis');
 const CalendarCreator = require('./CalendarCreator');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.readonly'];
+
 
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first time.
@@ -193,10 +194,24 @@ const main = async () => {
         const userCredentials = await authorize();
 
         const calendarCreator = new CalendarCreator(userCredentials);
-        calendarCreator.setCalendarId('7b67866fd7f5842220add4245ec3b230fc0790c2ceb0b56de40a1d8fe3f3f7ab@group.calendar.google.com');
+        calendarCreator.setCalendarId('d246c6be1fd06b95469df42eb9a61a8537cb70dcbf7b99f7987e69ee183c28cb@group.calendar.google.com');
 
-        const result = await calendarCreator.listEvents(10);
-        console.log(result);
+        // const result = await calendarCreator.listEvents(10);
+        // console.log(result);
+
+        console.log(await calendarCreator.createEvent(
+            {
+                name: 'Tư duy tính toán - CS117.O21 - VN',
+                startDate: '19/02/24',
+                endDate: '08/06/24',
+                startTime: '13:00:00',
+                endTime: '15:15:00',
+                gap: 1,
+                description: 'P C214 (CLC) - CS117.O21 - VN - Sĩ số: 100}',
+                color: 6,
+                weekday: 6
+            }
+        ));
 
     } catch (err) {
         console.error(err);
