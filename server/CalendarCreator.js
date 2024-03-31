@@ -1,8 +1,24 @@
 const {google} = require('googleapis');
 const moment = require('moment-timezone');
 
+
+const { datetime, RRule, RRuleSet, rrulestr } = require('rrule');
+
 // TODO: try to make this works 
+// NOTE: this calendar creator should be the plugin part 
 class CalendarCreator {
+    // byweekday: [RRule.MO, RRule.FR],
+    static WEEKDAYS_MAPPING = [
+        0, 0, 
+        RRule.MO, 
+        RRule.TU, 
+        RRule.WE, 
+        RRule.TH, 
+        RRule.FR, 
+        RRule.SA, 
+        RRule.SU, 
+    ];
+
     constructor(userCredentials) {
         this.userCredentials = userCredentials;
         this.calendarId = 'primary';
@@ -69,7 +85,9 @@ class CalendarCreator {
     _generateDateTimeString(date, time) {
         let result = "";
         const [day, month, year] = date.split('/');
+
         // NOTE: this full year is only temporary -> change this to a better implementation
+        // TODO: create a more dynamic implemetation for this 
         const fullYear= '20'+ year;
         result += fullYear + '-' + month + '-' + day;
         result += 'T'; 
@@ -85,9 +103,20 @@ class CalendarCreator {
 
         const startSessionDateTime = this._generateDateTimeString(event.startDate, event.startTime);
         const endSessionDateTime = this._generateDateTimeString(event.startDate, event.endTime);
+        
+        const courseWeekdays = [CalendarCreator.WEEKDAYS_MAPPING[event.weekday]];
+        const interval = event.gap;
 
-        // TODO: generate this information from gap info
-        const recurrence = [ 'RRULE:FREQ=DAILY;COUNT=2' ]; 
+        // TODO: 
+        const recurrence = new RRule({
+            freq: RRule.WEEKLY,
+            interval: interval,
+            tzid: this.timezone,
+            byweekday: courseWeekdays,
+            dtstart: datetime(2024, 3, 4, 7, 30, 0),
+            until: datetime(2024, 6, 31),
+        }).toString();
+
 
         const result = {
             'summary': event.name,
@@ -97,11 +126,12 @@ class CalendarCreator {
                'dateTime': startSessionDateTime,
                'timeZone': this.timezone,
             },
-
+            
             'end': {
                'dateTime': endSessionDateTime,
                'timeZone': this.timezone,
-            } ,
+            },
+            
             'recurrence': recurrence, 
         };
 
@@ -116,7 +146,7 @@ class CalendarCreator {
         await this.calendar.events.insert({
             calendarId: this.calendarId,
             resource: validEvent,
-        }, function(err, event) {
+        }, (err, event) => {
                 if (err) {
                     console.log('There was an error contacting the Calendar service: ' + err);
                     return;

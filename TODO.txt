@@ -1,4 +1,9 @@
 # TODO: 
-    Create an event [x]
-    Create a tkb calendar with calendar ID (basically porting the appscript) [] @Current
-    Create a calendar [] @Next
+
+    Create a tkb calendar with calendar ID (basically porting the appscript) [] 
+        Recurrent event @Current
+
+    Create a new calendar [] @Next
+
+# DONE: 
+Create an event [x]
