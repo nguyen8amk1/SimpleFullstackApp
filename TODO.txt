@@ -1,6 +1,9 @@
 # TODO: 
-    Attach to React client code [] (4h) @Current 
+    Attach to React client code [] (4h) 
         -> just the route /api/generateCalendar then do the work, no UI  
+
+        Have a server route that need authentication [] @Current 
+            route /api/generateCalendar 
 
         Loading then show the logs on the client side []
 
