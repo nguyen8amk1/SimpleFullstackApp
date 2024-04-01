@@ -1,33 +1,31 @@
 # TODO: 
-    Attach to React client code [] (4h) 
-        -> just the route /api/generateCalendar then do the work, no UI  
-
-        Have a server route that need authentication [] 
-            route /api/generate-calendar [] @Current
-            use the obtained access token to run the basic test of the calendar services []
-                -> first need to change the scope  
-
-        Loading then show the logs on the client side []
-
+    Encapsulate the Google Authenticator on the backend [] @Current
+    Temp React front end [] (4h) @Next
     Learning Sequelize (2h) [] @Next
+    Learn about the Session Management [] @Next
 
-    File-Upload [] () @Next
+    File-Upload [] () @Later
         Front-end []
         Back-end []
 
         Upload to google drive then deleted ?? 
         For now let's just use our own database first, just to make it working 
 
-    Encapsulate the Google Authenticator on the backend []
 
-    Learn about the Session Management []
 
-    Temp React front end [] (4h) 
     Change event colors []  (1h) 
 
     Hom thu y tuong [] ()
 
 # DONE: 
+    Attach to React client code [X] (4h) 
+        -> just the route /api/generateCalendar then do the work, no UI  
+
+    Have a server route that need authentication [X] 
+        route /api/generate-calendar [X]
+        use the obtained access token to run the basic test of the calendar services [X]
+            -> first need to change the scope  
+
     Learning passportJS (2h) [X] 
     Read calendar from HTML [X] (1h)
     Create a new calendar then add the original tkb to it [X] (10m) 
@@ -35,3 +33,4 @@
     Create a tkb calendar with calendar ID (basically porting the appscript) [X] 
         Recurrent event [X]
         Recreate the original calendar [X] 
+
