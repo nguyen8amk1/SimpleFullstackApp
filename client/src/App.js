@@ -41,6 +41,7 @@ function App() {
     }, []);
 
     if (isLoading) {
+        // TODO: better loading
         return <div>Loading...</div>;
     }
 

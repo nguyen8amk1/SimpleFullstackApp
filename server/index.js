@@ -9,7 +9,7 @@ const app = express();
 const port = 8000; 
 
 const passport  = require('passport');
-const passportSetup  = require('./passport');
+const passportSetup  = require('./config/passport-setup');
 
 // app.use(session({
 //     // genid: function(req) {
