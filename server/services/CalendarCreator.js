@@ -17,14 +17,22 @@ class CalendarCreator {
         RRule.SU, 
     ];
 
-    constructor(userCredentials) {
-        this.userCredentials = userCredentials;
+    constructor() {
+        this.userCredentials = undefined;
         this.calendarId = 'primary';
-        this.calendar = google.calendar({version: 'v3', auth: this.userCredentials});
+        this.calendar = undefined;
         this.timezone = 'Asia/Ho_Chi_Minh';
-        this.eventColors = null; 
-        this.calendarColors = null;
+        this.eventColors = undefined; 
+        this.calendarColors = undefined;
 
+    }
+
+    // NOTE: this should be generated from the HTML parser 
+    setCredentials(accessToken) {
+        // Create an OAuth2 client with the access token
+        this.userCredentials = new google.auth.OAuth2();
+        this.userCredentials.setCredentials({ access_token: accessToken });
+        this.calendar = google.calendar({version: 'v3', auth: this.userCredentials});
     }
 
     setTimeZone(timezone) {
@@ -158,14 +166,22 @@ class CalendarCreator {
     }
 
     async enableRandomColors() {
+        if(!this.calendar) {
+            throw new Error("Credentials undefined");
+        }
         const colors = await this.calendar.colors.get(); 
         this.eventColors = colors.data.event; 
         this.calendarColors = colors.data.calendar;
-        console.log(this.eventColors);
+        //console.log(this.eventColors);
     }
 
     async newCalendar(calendarName) {
+        if(!this.calendar) {
+            throw new Error("Credentials undefined");
+        }
+
         return new Promise((resolve, reject) => {
+
             const calendar = {
                 'summary': calendarName,
                 'timeZone': 'Asia/Ho_Chi_Minh'
@@ -185,6 +201,10 @@ class CalendarCreator {
     }
 
     async createEvent(event) {
+        if(!this.calendar) {
+            throw new Error("Credentials undefined");
+        }
+
         // TODO: make this works 
         const validEvent = this._eventParse(event);
         //console.log(validEvent);
@@ -212,6 +232,10 @@ class CalendarCreator {
     }
 
     async listEvents(count) {
+        if(!this.calendar) {
+            throw new Error("Credentials undefined");
+        }
+
         let result = "ditme, bi cai lon gi roi"; 
 
         const res = await this.calendar.events.list({
