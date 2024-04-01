@@ -13,6 +13,9 @@ passport.use(
         console.log("strategy");
         console.log("access token: ", accessToken);
         console.log("refresh token: ", refreshToken);
+
+        // TODO: store the access token in to the database ??
+            
         //console.log("profile: ", profile);
         return done(null, profile);
     }

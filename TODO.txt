@@ -7,9 +7,18 @@
 
         Loading then show the logs on the client side []
 
-    Temp React front end [] (4h) 
+    Learning passportJS (2h) [] @Next
 
+    Learning Sequelize (2h) [] @Next
+
+    Encapsulate the Google Authenticator on the backend []
+
+    Learn about the Session Manager []
+
+    Temp React front end [] (4h) 
     Change event colors []  (1h) 
+
+    Hom thu y tuong [] ()
 
 # DONE: 
     Read calendar from HTML [X] (1h)

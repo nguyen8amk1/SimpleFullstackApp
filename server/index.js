@@ -3,6 +3,7 @@ const cookieSession = require('cookie-session');
 const session = require('express-session')
 const cors = require('cors');
 const authRouter = require('./routes/auth');
+const apiRouter = require('./routes/api');
 
 const app = express(); 
 const port = 8000; 
@@ -41,6 +42,9 @@ app.get('/', (req, res) => {
 }); 
 
 app.use('/auth', authRouter);
+
+app.use('/api', apiRouter);
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

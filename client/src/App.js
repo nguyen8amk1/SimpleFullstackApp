@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import Home from "./pages/Home";
 import Post from "./pages/Post";
 import Login from "./pages/Login";
+import Calendar from "./pages/Calendar";
 import Navbar from './components/Navbar'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
@@ -9,6 +10,7 @@ import {useEffect, useState} from 'react';
 
 function App() {
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getUser = async () => {
@@ -26,15 +28,21 @@ function App() {
                 if(response.status == 200) {
                     const result = await response.json();
                     setUser(result.user);
+                    setIsLoading(false);
 
                 }
                 else throw new Error("Authentication failed");
             } catch (e) {
                 console.log(e);
+                setIsLoading(false);
             }
         }
         getUser();
     }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     console.log(user);
 
@@ -49,6 +57,8 @@ function App() {
                         element={ user ? <Navigate to="/"/> : <Login/>} />
                     <Route path="/post/:id" 
                         element={user ? <Post/> : <Navigate to="/login"/>} />
+                    <Route path="/generate-calendar" 
+                        element={user ? <Calendar/> : <Navigate to="/login"/>} />
                 </Routes>
             </div>
         </BrowserRouter>
