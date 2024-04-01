@@ -31,7 +31,11 @@ function App() {
                     setIsLoading(false);
 
                 }
-                else throw new Error("Authentication failed");
+                else { 
+                    // TODO: if have cookies -> remove cookies 
+                    // ...
+                    throw new Error("Authentication failed")
+                }
             } catch (e) {
                 console.log(e);
                 setIsLoading(false);

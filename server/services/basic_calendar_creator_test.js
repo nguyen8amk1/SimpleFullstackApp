@@ -205,6 +205,7 @@ const main = async () => {
     try { 
         // NOTE: this authorize() function is gonna be move to it's own block with output is the userCredentials 
         const userCredentials = await authorize();
+        console.log(userCredentials);
         // TODO: create new Calendar
 
         const calendarParser = new HTMLCalendarParser();

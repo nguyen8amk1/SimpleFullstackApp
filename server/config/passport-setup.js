@@ -19,7 +19,7 @@ passport.use(
         // console.log("strategy");
         // console.log("access token: ", accessToken);
         // console.log("refresh token: ", refreshToken);
-        //console.log(profile);
+        // console.log(profile);
 
         // TODO: store the access token into the database
             
@@ -44,10 +44,17 @@ passport.serializeUser((userId, done) => {
 passport.deserializeUser((userId, done) => {
     //console.log("deserialize: ", userProfile);
     // TODO: get the user info from the user id get from the cookie  
+    
+    console.log(testdatabase);
     console.log("deserialize: ", userId);
     const user = testdatabase[userId];
 
-    // TODO: do something when fail 
-    console.log(user);
-    done(null, user);
+    if(user) {
+        // TODO: do something when fail 
+        console.log(user);
+        done(null, user);
+    } else {
+        done('No user found for the given ID');
+    }
+
 });
