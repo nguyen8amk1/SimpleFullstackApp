@@ -96,8 +96,8 @@ const main = async () => {
         // const userCredentials = await authorize();
         // console.log(userCredentials);
         //TODO: create new Calendar
-        const accessToken = "ya29.a0Ad52N39gPPYYvLKqjyd2XWAEleOun0o8p6EZKTBXqp1UPjiw1w-vBv_mgcAbKvzihbyhcBRtW8IlASmaPlc0xpRUZPlc1lNRYP4mgouBfam-lwL7inzOTe6XVyWtAlfbsvSuoONVyu0EYIdFVzwBxDsjFIbXcXvR4WPxaCgYKAf4SARASFQHGX2Mi2OPgHbvm_CDjSLGmzhTw4g0171";
-        //const userCredentials = auth(accessToken);
+        const accessToken = something;
+        const userCredentials = auth(accessToken);
 
         const calendarParser = new HTMLCalendarParser();
         calendarParser.setData("./tkb.html");
